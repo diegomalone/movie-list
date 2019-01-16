@@ -15,9 +15,19 @@ android {
     }
 
     buildTypes {
+        def STRING = "String"
+        def API_URL = "API_URL"
+
         release {
+            buildConfigField STRING, API_URL, "\"http://api.themoviedb.org\""
+
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            buildConfigField STRING, API_URL, "\"http://api.themoviedb.org\""
+
+            debuggable true
         }
     }
 

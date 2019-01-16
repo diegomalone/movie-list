@@ -5,6 +5,7 @@ version.retrofit = '2.5.0'
 version.okHttp = '3.12.1'
 version.rx = '2.1.0'
 version.timber = '4.7.1'
+version.gson = '2.8.5'
 version.junit = '4.12'
 version.espresso = '3.1.0'
 version.test_runner = '1.1.0'
@@ -32,6 +33,7 @@ okHttp.loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:$version.o
 def others = [:]
 others.rx = "io.reactivex.rxjava2:rxandroid:$version.rx"
 others.timber = "com.jakewharton.timber:timber:$version.timber"
+others.gson = "com.google.code.gson:gson:$version.gson"
 
 def test = [
         [configuration: "testImplementation", dependency: "junit:junit:$version.junit"],
