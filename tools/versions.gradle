@@ -2,6 +2,7 @@ def version = [:]
 version.gradle = '3.3.0'
 version.appcompat = '1.0.2'
 version.constraintLayout = '1.1.3'
+version.material = '1.0.0'
 version.retrofit = '2.5.0'
 version.okHttp = '3.12.1'
 version.rx = '2.1.0'
@@ -22,6 +23,7 @@ classpath.gradle = "com.android.tools.build:gradle:$version.gradle"
 def support = [:]
 support.appcompat = "androidx.appcompat:appcompat:$version.appcompat"
 support.constraintLayout = "androidx.constraintlayout:constraintlayout:$version.constraintLayout"
+support.material = "com.google.android.material:material:$version.material"
 
 def retrofit = [:]
 retrofit.retrofit = "com.squareup.retrofit2:retrofit:$version.retrofit"
