@@ -49,6 +49,18 @@ public class MovieListViewModelTest {
         assertEquals(getMovieResult().getResults(), viewModel.movieListLiveData.getValue());
     }
 
+    @Test
+    public void shouldPostError_WhenApiError() {
+        Throwable throwable = new Throwable();
+
+        when(service.getMovieList(anyString(), anyString()))
+                .thenReturn(Observable.<MovieResult>error(throwable));
+
+        viewModel.getMovies();
+
+        assertEquals(throwable, viewModel.errorLiveData.getValue());
+    }
+
     private MovieResult getMovieResult() {
         List<Movie> movieList = new ArrayList<>();
         movieList.add(new Movie(1, "", "", "", "", "", 0.0));

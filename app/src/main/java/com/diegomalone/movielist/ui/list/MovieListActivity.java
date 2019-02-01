@@ -47,9 +47,9 @@ public class MovieListActivity extends AppCompatActivity {
             }
         });
 
-        viewModel.errorLiveData.observe(this, new Observer<Boolean>() {
+        viewModel.errorLiveData.observe(this, new Observer<Throwable>() {
             @Override
-            public void onChanged(Boolean aBoolean) {
+            public void onChanged(Throwable throwable) {
                 showError();
             }
         });

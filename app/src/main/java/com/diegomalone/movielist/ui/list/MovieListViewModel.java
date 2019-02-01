@@ -20,7 +20,7 @@ public class MovieListViewModel extends ViewModel {
     private CompositeDisposable disposables = new CompositeDisposable();
 
     MutableLiveData<List<Movie>> movieListLiveData = new MutableLiveData<>();
-    MutableLiveData<Boolean> errorLiveData = new MutableLiveData<>();
+    MutableLiveData<Throwable> errorLiveData = new MutableLiveData<>();
 
     public MovieListViewModel(MovieRestClient service) {
         this.service = service;
@@ -41,7 +41,7 @@ public class MovieListViewModel extends ViewModel {
                         }, new Consumer<Throwable>() {
                             @Override
                             public void accept(Throwable throwable) {
-                                errorLiveData.postValue(true);
+                                errorLiveData.postValue(throwable);
                             }
                         })
         );
