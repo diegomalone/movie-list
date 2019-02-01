@@ -10,6 +10,7 @@ version.rx = '2.1.0'
 version.timber = '4.7.1'
 version.gson = '2.8.5'
 version.junit = '4.12'
+version.mockito = '1.10.19'
 version.espresso = '3.1.0'
 version.test_runner = '1.1.0'
 
@@ -43,6 +44,8 @@ others.gson = "com.google.code.gson:gson:$version.gson"
 
 def test = [
         [configuration: "testImplementation", dependency: "junit:junit:$version.junit"],
+        [configuration: "testImplementation", dependency: "org.mockito:mockito-core:$version.mockito"],
+        [configuration: "testImplementation", dependency: "androidx.arch.core:core-testing:$version.lifecycle"],
         [configuration: "androidTestImplementation", dependency: "androidx.test:runner:$version.test_runner"],
         [configuration: "androidTestImplementation", dependency: "androidx.test.espresso:espresso-core:$version.espresso"]
 ]

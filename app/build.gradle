@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 
 apply from: "$rootDir/tools/versions.gradle"
+apply from: "$rootDir/tools/keys.gradle"
 
 android {
     compileSdkVersion config.compileSdkVersion
@@ -17,15 +18,18 @@ android {
     buildTypes {
         def STRING = "String"
         def API_URL = "API_URL"
+        def API_KEY = "API_KEY"
 
         release {
             buildConfigField STRING, API_URL, "\"http://api.themoviedb.org\""
+            buildConfigField STRING, API_KEY, tmdb_api_key
 
             minifyEnabled false
         }
 
         debug {
             buildConfigField STRING, API_URL, "\"http://api.themoviedb.org\""
+            buildConfigField STRING, API_KEY, tmdb_api_key
 
             debuggable true
         }

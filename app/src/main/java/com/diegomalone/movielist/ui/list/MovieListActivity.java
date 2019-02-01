@@ -21,7 +21,8 @@ public class MovieListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_list);
-        viewModel = ViewModelProviders.of(this).get(MovieListViewModel.class);
+        viewModel = ViewModelProviders.of(this, new MovieListViewModelFactory())
+                .get(MovieListViewModel.class);
 
         initViews();
         initObservers();

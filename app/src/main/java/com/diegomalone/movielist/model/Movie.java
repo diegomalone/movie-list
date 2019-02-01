@@ -4,6 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Objects;
+
 public class Movie implements Parcelable {
 
     @SerializedName("id")
@@ -91,6 +93,25 @@ public class Movie implements Parcelable {
 
     public void setUserRating(double userRating) {
         this.userRating = userRating;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Movie movie = (Movie) o;
+        return id == movie.id &&
+                Double.compare(movie.userRating, userRating) == 0 &&
+                Objects.equals(title, movie.title) &&
+                Objects.equals(synopsis, movie.synopsis) &&
+                Objects.equals(releaseDate, movie.releaseDate) &&
+                Objects.equals(poster, movie.poster) &&
+                Objects.equals(backgroundPhoto, movie.backgroundPhoto);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, synopsis, releaseDate, poster, backgroundPhoto, userRating);
     }
 
     @Override

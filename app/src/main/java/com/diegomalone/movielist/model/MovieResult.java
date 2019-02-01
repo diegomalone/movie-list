@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
+import java.util.Objects;
 
 public class MovieResult implements Parcelable {
 
@@ -57,6 +58,22 @@ public class MovieResult implements Parcelable {
 
     public void setResults(List<Movie> results) {
         this.results = results;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MovieResult that = (MovieResult) o;
+        return page == that.page &&
+                totalResults == that.totalResults &&
+                totalPages == that.totalPages &&
+                Objects.equals(results, that.results);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(page, totalResults, totalPages, results);
     }
 
     @Override
