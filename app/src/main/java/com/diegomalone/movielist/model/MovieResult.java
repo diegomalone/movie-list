@@ -1,0 +1,93 @@
+package com.diegomalone.movielist.model;
+
+import android.os.Parcel;
+import android.os.Parcelable;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
+public class MovieResult implements Parcelable {
+
+    @SerializedName("page")
+    private int page;
+
+    @SerializedName("total_results")
+    private int totalResults;
+
+    @SerializedName("total_pages")
+    private int totalPages;
+
+    @SerializedName("results")
+    private List<Movie> results;
+
+    public MovieResult(int page, int totalResults, int totalPages, List<Movie> results) {
+        this.page = page;
+        this.totalResults = totalResults;
+        this.totalPages = totalPages;
+        this.results = results;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public int getTotalResults() {
+        return totalResults;
+    }
+
+    public void setTotalResults(int totalResults) {
+        this.totalResults = totalResults;
+    }
+
+    public int getTotalPages() {
+        return totalPages;
+    }
+
+    public void setTotalPages(int totalPages) {
+        this.totalPages = totalPages;
+    }
+
+    public List<Movie> getResults() {
+        return results;
+    }
+
+    public void setResults(List<Movie> results) {
+        this.results = results;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.page);
+        dest.writeInt(this.totalResults);
+        dest.writeInt(this.totalPages);
+        dest.writeTypedList(this.results);
+    }
+
+    protected MovieResult(Parcel in) {
+        this.page = in.readInt();
+        this.totalResults = in.readInt();
+        this.totalPages = in.readInt();
+        this.results = in.createTypedArrayList(Movie.CREATOR);
+    }
+
+    public static final Creator<MovieResult> CREATOR = new Creator<MovieResult>() {
+        @Override
+        public MovieResult createFromParcel(Parcel source) {
+            return new MovieResult(source);
+        }
+
+        @Override
+        public MovieResult[] newArray(int size) {
+            return new MovieResult[size];
+        }
+    };
+}

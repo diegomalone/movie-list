@@ -3,6 +3,7 @@ version.gradle = '3.3.0'
 version.appcompat = '1.0.2'
 version.constraintLayout = '1.1.3'
 version.material = '1.0.0'
+version.lifecycle = '2.0.0'
 version.retrofit = '2.5.0'
 version.okHttp = '3.12.1'
 version.rx = '2.1.0'
@@ -20,10 +21,11 @@ configurations.minSdkVersion = 21
 def classpath = [:]
 classpath.gradle = "com.android.tools.build:gradle:$version.gradle"
 
-def support = [:]
-support.appcompat = "androidx.appcompat:appcompat:$version.appcompat"
-support.constraintLayout = "androidx.constraintlayout:constraintlayout:$version.constraintLayout"
-support.material = "com.google.android.material:material:$version.material"
+def androidx = [:]
+androidx.appcompat = "androidx.appcompat:appcompat:$version.appcompat"
+androidx.constraintLayout = "androidx.constraintlayout:constraintlayout:$version.constraintLayout"
+androidx.material = "com.google.android.material:material:$version.material"
+androidx.lifecycle = "androidx.lifecycle:lifecycle-extensions:$version.lifecycle"
 
 def retrofit = [:]
 retrofit.retrofit = "com.squareup.retrofit2:retrofit:$version.retrofit"
@@ -46,7 +48,7 @@ def test = [
 ]
 
 def implementation = [:]
-implementation.support = support
+implementation.androidx = androidx
 implementation.retrofit = retrofit
 implementation.okHttp = okHttp
 implementation.others = others

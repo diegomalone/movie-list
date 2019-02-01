@@ -5,6 +5,6 @@
         android:layout_width="match_parent"
         android:id="@+id/constraintLayoutRoot"
         android:layout_height="match_parent"
-        tools:context=".ui.MovieListActivity">
+        tools:context=".ui.list.MovieListActivity">
 
 </androidx.constraintlayout.widget.ConstraintLayout>
