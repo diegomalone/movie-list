@@ -1,10 +1,12 @@
 package com.diegomalone.movielist.ui.list;
 
 import android.os.Bundle;
+import android.view.ViewGroup;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.diegomalone.movielist.R;
 import com.diegomalone.movielist.model.Movie;
 import com.google.android.material.snackbar.Snackbar;
@@ -15,7 +17,10 @@ public class MovieListActivity extends AppCompatActivity {
 
     private MovieListViewModel viewModel;
 
-    private ConstraintLayout rootContainer;
+    private ViewGroup rootContainer;
+    private RecyclerView movieListRecyclerView;
+
+    private MovieAdapter movieAdapter = new MovieAdapter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +42,10 @@ public class MovieListActivity extends AppCompatActivity {
 
     private void initViews() {
         rootContainer = findViewById(R.id.constraintLayoutRoot);
+        movieListRecyclerView = findViewById(R.id.recyclerViewMovieList);
+
+        movieListRecyclerView.setAdapter(movieAdapter);
+        movieListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void initObservers() {
@@ -56,8 +65,7 @@ public class MovieListActivity extends AppCompatActivity {
     }
 
     private void loadMovies(List<Movie> movies) {
-        // TODO Show movies
-        Snackbar.make(rootContainer, "Loaded " + movies.size() + " movies", Snackbar.LENGTH_LONG).show();
+        movieAdapter.addMovies(movies);
     }
 
     private void showError() {
