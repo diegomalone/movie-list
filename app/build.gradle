@@ -19,10 +19,12 @@ android {
         def STRING = "String"
         def API_URL = "API_URL"
         def API_KEY = "API_KEY"
+        def IMAGE_URL = "IMAGE_URL"
 
         release {
             buildConfigField STRING, API_URL, "\"http://api.themoviedb.org\""
             buildConfigField STRING, API_KEY, tmdb_api_key
+            buildConfigField STRING, IMAGE_URL, "\"https://image.tmdb.org/t/p/w500\""
 
             minifyEnabled false
         }
@@ -30,6 +32,7 @@ android {
         debug {
             buildConfigField STRING, API_URL, "\"http://api.themoviedb.org\""
             buildConfigField STRING, API_KEY, tmdb_api_key
+            buildConfigField STRING, IMAGE_URL, "\"https://image.tmdb.org/t/p/w500\""
 
             debuggable true
         }

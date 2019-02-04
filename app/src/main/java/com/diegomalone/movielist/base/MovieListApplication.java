@@ -1,6 +1,7 @@
 package com.diegomalone.movielist.base;
 
 import android.app.Application;
+import com.diegomalone.movielist.BuildConfig;
 import timber.log.Timber;
 
 public class MovieListApplication extends Application {
@@ -9,7 +10,9 @@ public class MovieListApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        setupTimber();
+        if (BuildConfig.DEBUG) {
+            setupTimber();
+        }
     }
 
     private void setupTimber() {
