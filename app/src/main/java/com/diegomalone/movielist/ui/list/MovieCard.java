@@ -6,17 +6,18 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.bumptech.glide.Glide;
 import com.diegomalone.movielist.BuildConfig;
 import com.diegomalone.movielist.R;
+import com.diegomalone.movielist.image.ImageLoader;
+import com.diegomalone.movielist.injection.Injection;
 import com.diegomalone.movielist.model.Movie;
-
-import java.text.DecimalFormat;
 
 public class MovieCard extends FrameLayout {
 
     private TextView movieTitle, movieSynopsis, movieUserRating;
     private ImageView moviePoster;
+
+    private ImageLoader imageLoader = Injection.provideImageLoader();
 
     private Movie movie;
 
@@ -37,7 +38,7 @@ public class MovieCard extends FrameLayout {
 
         View view = inflate(context, R.layout.view_movie_card, this);
 
-        movieTitle = view.findViewById(R.id.textMovieTitle);
+        movieTitle = view.findViewById(R.id.textTitle);
         movieSynopsis = view.findViewById(R.id.textSynopsis);
         movieUserRating = view.findViewById(R.id.textUserRating);
         moviePoster = view.findViewById(R.id.imageMoviePoster);
@@ -46,15 +47,13 @@ public class MovieCard extends FrameLayout {
     public void setMovie(Movie movie) {
         this.movie = movie;
 
-        DecimalFormat decimalFormat = new DecimalFormat("0.0");
-
         movieTitle.setText(movie.getTitle());
         movieSynopsis.setText(movie.getSynopsis());
-        movieUserRating.setText(decimalFormat.format(movie.getUserRating()));
+        movieUserRating.setText(movie.getFormattedUserRating());
 
-        Glide.with(this)
-                .load(BuildConfig.IMAGE_URL + movie.getPoster())
-                .into(moviePoster);
+        // TODO Get correct image size
+        String fullImageUrl = BuildConfig.IMAGE_URL + movie.getPoster();
+        imageLoader.loadImage(fullImageUrl, moviePoster);
     }
 
 }

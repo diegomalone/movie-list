@@ -21,11 +21,7 @@ public class MovieResult implements Parcelable {
     @SerializedName("results")
     private List<Movie> results;
 
-    public MovieResult(int page, int totalResults, int totalPages, List<Movie> results) {
-        this.page = page;
-        this.totalResults = totalResults;
-        this.totalPages = totalPages;
-        this.results = results;
+    public MovieResult() {
     }
 
     public int getPage() {

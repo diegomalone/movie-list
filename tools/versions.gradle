@@ -13,6 +13,8 @@ version.junit = '4.12'
 version.mockito = '1.10.19'
 version.espresso = '3.1.0'
 version.test_runner = '1.1.0'
+version.test_rules = '1.1.0'
+version.orchestrator = '1.1.0'
 version.glide = '4.8.0'
 
 def configurations = [:]
@@ -49,6 +51,8 @@ def test = [
         [configuration: "testImplementation", dependency: "org.mockito:mockito-core:$version.mockito"],
         [configuration: "testImplementation", dependency: "androidx.arch.core:core-testing:$version.lifecycle"],
         [configuration: "androidTestImplementation", dependency: "androidx.test:runner:$version.test_runner"],
+        [configuration: "androidTestImplementation", dependency: "androidx.test:rules:$version.test_rules"],
+        [configuration: "androidTestImplementation", dependency: "androidx.test:orchestrator:$version.orchestrator"],
         [configuration: "androidTestImplementation", dependency: "androidx.test.espresso:espresso-core:$version.espresso"]
 ]
 

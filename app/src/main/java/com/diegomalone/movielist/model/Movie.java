@@ -4,6 +4,10 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Objects;
 
 public class Movie implements Parcelable {
@@ -29,14 +33,7 @@ public class Movie implements Parcelable {
     @SerializedName("vote_average")
     private double userRating;
 
-    public Movie(long id, String title, String synopsis, String releaseDate, String poster, String backgroundPhoto, double userRating) {
-        this.id = id;
-        this.title = title;
-        this.synopsis = synopsis;
-        this.releaseDate = releaseDate;
-        this.poster = poster;
-        this.backgroundPhoto = backgroundPhoto;
-        this.userRating = userRating;
+    public Movie() {
     }
 
     public long getId() {
@@ -93,6 +90,19 @@ public class Movie implements Parcelable {
 
     public void setUserRating(double userRating) {
         this.userRating = userRating;
+    }
+
+    public String getFormattedUserRating() {
+        return getDecimalFormat().format(getUserRating());
+    }
+
+    private static DecimalFormat getDecimalFormat() {
+        Locale enLocale = new Locale("en", "US");
+        DecimalFormat decimalFormat = (DecimalFormat) NumberFormat.getNumberInstance(enLocale);
+        decimalFormat.applyPattern("0.0");
+        decimalFormat.setRoundingMode(RoundingMode.FLOOR);
+
+        return decimalFormat;
     }
 
     @Override

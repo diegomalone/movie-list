@@ -12,28 +12,29 @@ android {
         targetSdkVersion config.targetSdkVersion
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
 
-    buildTypes {
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments clearPackageData: 'true'
+
         def STRING = "String"
         def API_URL = "API_URL"
         def API_KEY = "API_KEY"
         def IMAGE_URL = "IMAGE_URL"
+        buildConfigField STRING, API_URL, "\"http://api.themoviedb.org\""
+        buildConfigField STRING, API_KEY, tmdb_api_key
+        buildConfigField STRING, IMAGE_URL, "\"https://image.tmdb.org/t/p/w500\""
+    }
 
+    testOptions {
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+    }
+
+    buildTypes {
         release {
-            buildConfigField STRING, API_URL, "\"http://api.themoviedb.org\""
-            buildConfigField STRING, API_KEY, tmdb_api_key
-            buildConfigField STRING, IMAGE_URL, "\"https://image.tmdb.org/t/p/w500\""
-
             minifyEnabled false
         }
 
         debug {
-            buildConfigField STRING, API_URL, "\"http://api.themoviedb.org\""
-            buildConfigField STRING, API_KEY, tmdb_api_key
-            buildConfigField STRING, IMAGE_URL, "\"https://image.tmdb.org/t/p/w500\""
-
             debuggable true
         }
     }

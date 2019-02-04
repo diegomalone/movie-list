@@ -62,9 +62,15 @@ public class MovieListViewModelTest {
     }
 
     private MovieResult getMovieResult() {
-        List<Movie> movieList = new ArrayList<>();
-        movieList.add(new Movie(1, "", "", "", "", "", 0.0));
+        Movie movie = new Movie();
+        movie.setId(1);
 
-        return new MovieResult(1, 1500, 100, movieList);
+        List<Movie> movieList = new ArrayList<>();
+        movieList.add(movie);
+
+        MovieResult movieResult = new MovieResult();
+        movieResult.setResults(movieList);
+
+        return movieResult;
     }
 }
