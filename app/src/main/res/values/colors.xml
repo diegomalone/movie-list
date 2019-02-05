@@ -6,4 +6,6 @@
 
     <color name="textColor">#222222</color>
     <color name="divider">#ADADAD</color>
+
+    <color name="gold">#ffd700</color>
 </resources>

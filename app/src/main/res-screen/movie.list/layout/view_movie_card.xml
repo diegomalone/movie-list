@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/imageMoviePoster"
-        android:layout_width="@dimen/movie_card_poster_width"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/movie_card_poster_height"
         android:layout_marginTop="@dimen/small_margin"
         android:layout_marginBottom="@dimen/small_margin"
         android:contentDescription="@string/movie_posts_content_description"
@@ -23,6 +23,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/medium_margin"
+        android:layout_marginTop="@dimen/small_margin"
         android:gravity="start"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,12 +42,24 @@
         app:layout_constraintStart_toStartOf="@id/textTitle"
         app:layout_constraintTop_toBottomOf="@id/textTitle" />
 
+    <ImageView
+        android:id="@+id/imageUserRatingStar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small_margin"
+        android:importantForAccessibility="no"
+        android:src="@drawable/ic_star_black_24dp"
+        android:tint="@color/userRatingStar"
+        app:layout_constraintStart_toStartOf="@id/textSynopsis"
+        app:layout_constraintTop_toBottomOf="@id/textSynopsis" />
+
     <TextView
         android:id="@+id/textUserRating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/small_margin"
-        app:layout_constraintStart_toStartOf="@id/textSynopsis"
-        app:layout_constraintTop_toBottomOf="@id/textSynopsis" />
+        android:layout_marginStart="@dimen/small_margin"
+        app:layout_constraintBottom_toBottomOf="@id/imageUserRatingStar"
+        app:layout_constraintStart_toEndOf="@id/imageUserRatingStar"
+        app:layout_constraintTop_toTopOf="@id/imageUserRatingStar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

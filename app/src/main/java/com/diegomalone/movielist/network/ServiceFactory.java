@@ -12,6 +12,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceFactory {
 
+    public static String baseUrl = BuildConfig.API_URL;
+
     private static MovieRestClient service;
 
     public static MovieRestClient getService() {
@@ -36,7 +38,7 @@ public class ServiceFactory {
         return new Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .baseUrl(BuildConfig.API_URL)
+                .baseUrl(baseUrl)
                 .client(okHttpClient)
                 .build();
     }

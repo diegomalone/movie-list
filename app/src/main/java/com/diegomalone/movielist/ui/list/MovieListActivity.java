@@ -1,7 +1,7 @@
 package com.diegomalone.movielist.ui.list;
 
 import android.os.Bundle;
-import android.view.ViewGroup;
+import android.widget.ViewFlipper;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -15,9 +15,13 @@ import java.util.List;
 
 public class MovieListActivity extends AppCompatActivity {
 
+    public static final int LOADING = 0;
+    public static final int CONTENT = 1;
+    public static final int ERROR = 2;
+
     private MovieListViewModel viewModel;
 
-    private ViewGroup rootContainer;
+    private ViewFlipper viewFlipper;
     private RecyclerView movieListRecyclerView;
 
     private MovieAdapter movieAdapter = new MovieAdapter();
@@ -41,7 +45,7 @@ public class MovieListActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        rootContainer = findViewById(R.id.constraintLayoutRoot);
+        viewFlipper = findViewById(R.id.viewFlipper);
         movieListRecyclerView = findViewById(R.id.recyclerViewMovieList);
 
         movieListRecyclerView.setAdapter(movieAdapter);
@@ -62,6 +66,13 @@ public class MovieListActivity extends AppCompatActivity {
                 showError();
             }
         });
+
+        viewModel.activeChildLiveData.observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer child) {
+                viewFlipper.setDisplayedChild(child);
+            }
+        });
     }
 
     private void loadMovies(List<Movie> movies) {
@@ -69,6 +80,6 @@ public class MovieListActivity extends AppCompatActivity {
     }
 
     private void showError() {
-        Snackbar.make(rootContainer, R.string.error_default, Snackbar.LENGTH_LONG).show();
+        Snackbar.make(viewFlipper, R.string.error_default, Snackbar.LENGTH_LONG).show();
     }
 }

@@ -53,7 +53,9 @@ def test = [
         [configuration: "androidTestImplementation", dependency: "androidx.test:runner:$version.test_runner"],
         [configuration: "androidTestImplementation", dependency: "androidx.test:rules:$version.test_rules"],
         [configuration: "androidTestImplementation", dependency: "androidx.test:orchestrator:$version.orchestrator"],
-        [configuration: "androidTestImplementation", dependency: "androidx.test.espresso:espresso-core:$version.espresso"]
+        [configuration: "androidTestImplementation", dependency: "androidx.test.espresso:espresso-core:$version.espresso"],
+        [configuration: "androidTestImplementation", dependency: "androidx.test.espresso:espresso-contrib:$version.espresso"],
+        [configuration: "androidTestImplementation", dependency: "com.squareup.okhttp3:mockwebserver:$version.okHttp"]
 ]
 
 def implementation = [:]

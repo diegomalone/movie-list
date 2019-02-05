@@ -13,12 +13,15 @@ import io.reactivex.schedulers.Schedulers;
 
 import java.util.List;
 
+import static com.diegomalone.movielist.ui.list.MovieListActivity.*;
+
 public class MovieListViewModel extends ViewModel {
 
     private MovieRestClient service;
 
     private CompositeDisposable disposables = new CompositeDisposable();
 
+    MutableLiveData<Integer> activeChildLiveData = new MutableLiveData<>();
     MutableLiveData<List<Movie>> movieListLiveData = new MutableLiveData<>();
     MutableLiveData<Throwable> errorLiveData = new MutableLiveData<>();
 
@@ -27,6 +30,8 @@ public class MovieListViewModel extends ViewModel {
     }
 
     void getMovies() {
+        activeChildLiveData.postValue(LOADING);
+
         String apiKey = BuildConfig.API_KEY;
 
         disposables.add(
@@ -36,15 +41,25 @@ public class MovieListViewModel extends ViewModel {
                         .subscribe(new Consumer<MovieResult>() {
                             @Override
                             public void accept(MovieResult movieResult) {
-                                movieListLiveData.postValue(movieResult.getResults());
+                                movieResultReceived(movieResult);
                             }
                         }, new Consumer<Throwable>() {
                             @Override
                             public void accept(Throwable throwable) {
-                                errorLiveData.postValue(throwable);
+                                errorReceived(throwable);
                             }
                         })
         );
+    }
+
+    private void movieResultReceived(MovieResult movieResult) {
+        movieListLiveData.postValue(movieResult.getResults());
+        activeChildLiveData.postValue(CONTENT);
+    }
+
+    private void errorReceived(Throwable throwable) {
+        errorLiveData.postValue(throwable);
+        activeChildLiveData.postValue(ERROR);
     }
 
     @Override

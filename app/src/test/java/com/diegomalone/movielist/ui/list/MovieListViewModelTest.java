@@ -1,6 +1,7 @@
 package com.diegomalone.movielist.ui.list;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.lifecycle.Observer;
 import com.diegomalone.movielist.RxImmediateSchedulerRule;
 import com.diegomalone.movielist.model.Movie;
 import com.diegomalone.movielist.model.MovieResult;
@@ -16,8 +17,10 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.diegomalone.movielist.ui.list.MovieListActivity.*;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class MovieListViewModelTest {
@@ -27,6 +30,9 @@ public class MovieListViewModelTest {
 
     @Rule
     public RxImmediateSchedulerRule rxRule = new RxImmediateSchedulerRule();
+
+    @Mock
+    private Observer<Integer> activeChildObserver;
 
     @Mock
     private MovieRestClient service;
@@ -59,6 +65,44 @@ public class MovieListViewModelTest {
         viewModel.getMovies();
 
         assertEquals(throwable, viewModel.errorLiveData.getValue());
+    }
+
+    @Test
+    public void shouldPostLoadingState_WhenGetMovies() {
+        when(service.getMovieList(anyString(), anyString()))
+                .thenReturn(Observable.just(getMovieResult()));
+
+        viewModel.activeChildLiveData.observeForever(activeChildObserver);
+
+        viewModel.getMovies();
+
+        verify(activeChildObserver).onChanged(LOADING);
+    }
+
+    @Test
+    public void shouldPostContentState_WhenGetMovies() {
+        when(service.getMovieList(anyString(), anyString()))
+                .thenReturn(Observable.just(getMovieResult()));
+
+        viewModel.activeChildLiveData.observeForever(activeChildObserver);
+
+        viewModel.getMovies();
+
+        verify(activeChildObserver).onChanged(CONTENT);
+    }
+
+    @Test
+    public void shouldPostErrorState_WhenApiError() {
+        Throwable throwable = new Throwable();
+
+        when(service.getMovieList(anyString(), anyString()))
+                .thenReturn(Observable.<MovieResult>error(throwable));
+
+        viewModel.activeChildLiveData.observeForever(activeChildObserver);
+
+        viewModel.getMovies();
+
+        verify(activeChildObserver).onChanged(ERROR);
     }
 
     private MovieResult getMovieResult() {

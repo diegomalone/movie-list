@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="movie_card_poster_height">124dp</dimen>
+    <color name="userRatingStar">@color/gold</color>
 </resources>
