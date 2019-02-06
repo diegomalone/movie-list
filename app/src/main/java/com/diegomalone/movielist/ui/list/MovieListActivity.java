@@ -60,13 +60,6 @@ public class MovieListActivity extends AppCompatActivity {
             }
         });
 
-        viewModel.errorLiveData.observe(this, new Observer<Throwable>() {
-            @Override
-            public void onChanged(Throwable throwable) {
-                showError();
-            }
-        });
-
         viewModel.activeChildLiveData.observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer child) {
@@ -77,9 +70,5 @@ public class MovieListActivity extends AppCompatActivity {
 
     private void loadMovies(List<Movie> movies) {
         movieAdapter.addMovies(movies);
-    }
-
-    private void showError() {
-        Snackbar.make(viewFlipper, R.string.error_default, Snackbar.LENGTH_LONG).show();
     }
 }

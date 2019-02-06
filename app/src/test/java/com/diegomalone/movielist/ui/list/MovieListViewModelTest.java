@@ -56,18 +56,6 @@ public class MovieListViewModelTest {
     }
 
     @Test
-    public void shouldPostError_WhenApiError() {
-        Throwable throwable = new Throwable();
-
-        when(service.getMovieList(anyString(), anyString()))
-                .thenReturn(Observable.<MovieResult>error(throwable));
-
-        viewModel.getMovies();
-
-        assertEquals(throwable, viewModel.errorLiveData.getValue());
-    }
-
-    @Test
     public void shouldPostLoadingState_WhenGetMovies() {
         when(service.getMovieList(anyString(), anyString()))
                 .thenReturn(Observable.just(getMovieResult()));

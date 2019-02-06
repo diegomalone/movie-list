@@ -23,7 +23,6 @@ public class MovieListViewModel extends ViewModel {
 
     MutableLiveData<Integer> activeChildLiveData = new MutableLiveData<>();
     MutableLiveData<List<Movie>> movieListLiveData = new MutableLiveData<>();
-    MutableLiveData<Throwable> errorLiveData = new MutableLiveData<>();
 
     public MovieListViewModel(MovieRestClient service) {
         this.service = service;
@@ -58,7 +57,6 @@ public class MovieListViewModel extends ViewModel {
     }
 
     private void errorReceived(Throwable throwable) {
-        errorLiveData.postValue(throwable);
         activeChildLiveData.postValue(ERROR);
     }
 

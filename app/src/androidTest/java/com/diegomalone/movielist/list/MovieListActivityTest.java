@@ -14,10 +14,13 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.diegomalone.movielist.matcher.RecyclerViewMatcher.hasItemCount;
 
 public class MovieListActivityTest {
@@ -41,6 +44,31 @@ public class MovieListActivityTest {
 
         onView(withId(R.id.recyclerViewMovieList))
                 .check(matches(hasItemCount(totalMovies)));
+    }
+
+    @Test
+    public void shouldShowLoading_WhenWaitMovieResponse() {
+        MockResponse response = new MockResponse()
+                .setBody(new Gson().toJson(getMovieResult(10)));
+        response.setBodyDelay(5, TimeUnit.SECONDS);
+
+        networkServer.enqueue(response);
+
+        activityRule.launchActivity(new Intent());
+
+        onView(withId(R.id.progressMovieList))
+                .check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void shouldShowError_WhenGetMovieError() {
+        networkServer.enqueue(new MockResponse()
+        .setHttp2ErrorCode(500));
+
+        activityRule.launchActivity(new Intent());
+
+        onView(withText(R.string.error_default))
+                .check(matches(isDisplayed()));
     }
 
     private MovieResult getMovieResult(int totalMovies) {
