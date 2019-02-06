@@ -5,13 +5,11 @@ import android.widget.ViewFlipper;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.diegomalone.movielist.R;
 import com.diegomalone.movielist.model.Movie;
-import com.google.android.material.snackbar.Snackbar;
-
-import java.util.List;
 
 public class MovieListActivity extends AppCompatActivity {
 
@@ -24,7 +22,7 @@ public class MovieListActivity extends AppCompatActivity {
     private ViewFlipper viewFlipper;
     private RecyclerView movieListRecyclerView;
 
-    private MovieAdapter movieAdapter = new MovieAdapter();
+    private MovieAdapter movieAdapter = new MovieAdapter(new MovieComparator());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +38,6 @@ public class MovieListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        viewModel.getMovies();
     }
 
     private void initViews() {
@@ -53,9 +49,9 @@ public class MovieListActivity extends AppCompatActivity {
     }
 
     private void initObservers() {
-        viewModel.movieListLiveData.observe(this, new Observer<List<Movie>>() {
+        viewModel.movieListLiveData.observe(this, new Observer<PagedList<Movie>>() {
             @Override
-            public void onChanged(List<Movie> movies) {
+            public void onChanged(PagedList<Movie> movies) {
                 loadMovies(movies);
             }
         });
@@ -68,7 +64,7 @@ public class MovieListActivity extends AppCompatActivity {
         });
     }
 
-    private void loadMovies(List<Movie> movies) {
-        movieAdapter.addMovies(movies);
+    private void loadMovies(PagedList<Movie> movies) {
+        movieAdapter.submitList(movies);
     }
 }

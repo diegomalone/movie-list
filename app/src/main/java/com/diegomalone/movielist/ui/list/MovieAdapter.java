@@ -3,15 +3,16 @@ package com.diegomalone.movielist.ui.list;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
+import androidx.paging.PagedListAdapter;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 import com.diegomalone.movielist.model.Movie;
 
-import java.util.ArrayList;
-import java.util.List;
+public class MovieAdapter extends PagedListAdapter<Movie, MovieAdapter.MovieViewHolder> {
 
-public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
-
-    private List<Movie> movieList = new ArrayList<>();
+    MovieAdapter(@NonNull DiffUtil.ItemCallback<Movie> diffCallback) {
+        super(diffCallback);
+    }
 
     @NonNull
     @Override
@@ -28,31 +29,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
-        Movie movie = movieList.get(position);
-
-        holder.movieCard.setMovie(movie);
-    }
-
-    @Override
-    public int getItemCount() {
-        return movieList.size();
-    }
-
-    public void addMovies(List<Movie> movieList) {
-        this.movieList.addAll(movieList);
-        notifyDataSetChanged();
-    }
-
-    public void clearMovies() {
-        this.movieList.clear();
-        notifyDataSetChanged();
+        holder.movieCard.setMovie(getItem(position));
     }
 
     class MovieViewHolder extends RecyclerView.ViewHolder {
 
         MovieCard movieCard;
 
-        public MovieViewHolder(@NonNull View itemView) {
+        MovieViewHolder(@NonNull View itemView) {
             super(itemView);
 
             this.movieCard = (MovieCard) itemView;

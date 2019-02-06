@@ -1,63 +1,47 @@
 package com.diegomalone.movielist.ui.list;
 
-import androidx.lifecycle.MutableLiveData;
+import androidx.arch.core.util.Function;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
-import com.diegomalone.movielist.BuildConfig;
+import androidx.paging.LivePagedListBuilder;
+import androidx.paging.PagedList;
 import com.diegomalone.movielist.model.Movie;
-import com.diegomalone.movielist.model.MovieResult;
 import com.diegomalone.movielist.network.MovieRestClient;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
-import java.util.List;
-
-import static com.diegomalone.movielist.ui.list.MovieListActivity.*;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class MovieListViewModel extends ViewModel {
 
-    private MovieRestClient service;
+    LiveData<Integer> activeChildLiveData;
+    LiveData<PagedList<Movie>> movieListLiveData;
 
     private CompositeDisposable disposables = new CompositeDisposable();
 
-    MutableLiveData<Integer> activeChildLiveData = new MutableLiveData<>();
-    MutableLiveData<List<Movie>> movieListLiveData = new MutableLiveData<>();
-
+    @SuppressWarnings("unchecked")
     public MovieListViewModel(MovieRestClient service) {
-        this.service = service;
-    }
+        Executor executor = Executors.newFixedThreadPool(5);
 
-    void getMovies() {
-        activeChildLiveData.postValue(LOADING);
+        MovieDataSourceFactory factory = new MovieDataSourceFactory(service, disposables);
 
-        String apiKey = BuildConfig.API_KEY;
+        activeChildLiveData = Transformations.switchMap(factory.getMutableLiveData(), new Function<MovieDataSource, LiveData<Integer>>() {
+            @Override
+            public LiveData<Integer> apply(MovieDataSource input) {
+                return input.activeChildLiveData;
+            }
+        });
 
-        disposables.add(
-                service.getMovieList(apiKey, "1")
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeOn(Schedulers.io())
-                        .subscribe(new Consumer<MovieResult>() {
-                            @Override
-                            public void accept(MovieResult movieResult) {
-                                movieResultReceived(movieResult);
-                            }
-                        }, new Consumer<Throwable>() {
-                            @Override
-                            public void accept(Throwable throwable) {
-                                errorReceived(throwable);
-                            }
-                        })
-        );
-    }
+        PagedList.Config pagedListConfig = new PagedList.Config.Builder()
+                .setEnablePlaceholders(false)
+                .setInitialLoadSizeHint(1)
+                .setPageSize(20)
+                .build();
 
-    private void movieResultReceived(MovieResult movieResult) {
-        movieListLiveData.postValue(movieResult.getResults());
-        activeChildLiveData.postValue(CONTENT);
-    }
-
-    private void errorReceived(Throwable throwable) {
-        activeChildLiveData.postValue(ERROR);
+        movieListLiveData = new LivePagedListBuilder(factory, pagedListConfig)
+                .setFetchExecutor(executor)
+                .build();
     }
 
     @Override

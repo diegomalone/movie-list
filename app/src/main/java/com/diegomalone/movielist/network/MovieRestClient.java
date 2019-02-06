@@ -9,5 +9,5 @@ public interface MovieRestClient {
 
     @GET("3/movie/popular")
     Observable<MovieResult> getMovieList(@Query("api_key") String apiKey,
-                                         @Query("page") String page);
+                                         @Query("page") Integer page);
 }
