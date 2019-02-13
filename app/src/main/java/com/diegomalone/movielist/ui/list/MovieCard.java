@@ -2,17 +2,18 @@ package com.diegomalone.movielist.ui.list;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import com.diegomalone.movielist.BuildConfig;
 import com.diegomalone.movielist.R;
 import com.diegomalone.movielist.image.ImageLoader;
 import com.diegomalone.movielist.injection.Injection;
 import com.diegomalone.movielist.model.Movie;
 
-public class MovieCard extends FrameLayout {
+public class MovieCard extends ConstraintLayout {
 
     private TextView movieTitle, movieSynopsis, movieUserRating;
     private ImageView moviePoster;
@@ -22,7 +23,7 @@ public class MovieCard extends FrameLayout {
     private Movie movie;
 
     public MovieCard(Context context) {
-        this(context, null);
+        this(context, null, 0);
     }
 
     public MovieCard(Context context, AttributeSet attrs) {
@@ -30,13 +31,9 @@ public class MovieCard extends FrameLayout {
     }
 
     public MovieCard(Context context, AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, 0);
-    }
+        super(context, attrs, defStyleAttr);
 
-    public MovieCard(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-
-        View view = inflate(context, R.layout.view_movie_card, this);
+        View view = LayoutInflater.from(context).inflate(R.layout.view_movie_card, this, true);
 
         movieTitle = view.findViewById(R.id.textTitle);
         movieSynopsis = view.findViewById(R.id.textSynopsis);
